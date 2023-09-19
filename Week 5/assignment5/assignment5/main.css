@@ -1,0 +1,59 @@
+textarea
+{
+    color: black;
+    margin-left: 25px;
+    margin-top: 20px;
+    width: 80%;
+    height: 50px;
+}
+
+h1 {
+    margin-left: 20px;
+}
+
+p{
+    margin-left: 20px;
+}
+span{
+    font-size: 50px;
+}
+#kuku{
+    width:  20%;
+}
+#dota2{
+    margin-left: 30px;
+    margin-top: 10px;
+    width:  50%;
+}
+.grid-container {
+	display: grid;
+    grid-template-columns: 20% 40% 40%;
+    grid-gap: 10px;
+}
+
+.grid-container > div{
+	
+    font-size: 20px;    
+    border-radius: 10px;
+    background-color: hwb(34 66% 9%);
+}
+
+#header{
+	grid-column: 1 / span 3;
+}
+
+#navigation{
+	grid-column: 1 / span 1;
+}
+
+#main1{
+	grid-column: 2 / span 1;
+}
+
+#main2{
+	grid-column:3 / span 1;
+}
+
+#footer{
+	grid-column:2 / span 1;
+}

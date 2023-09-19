@@ -1,0 +1,53 @@
+h1{
+    font-family:'Times New Roman', Times, serif;
+    font-size: 45pt;
+    font-weight: bold;
+    color: #464655;
+    font-style: italic;
+}
+
+img{
+    width: 20%;
+}
+
+h3{
+    font-family:'Times New Roman', Times, serif;
+    font-size: 15pt;
+    font-weight: bold;
+}
+
+div{
+    text-align: center;
+}
+
+ul{
+    font-family: Garamond, 'Times New Roman', Times, serif;
+    font-size: 14pt;
+    width: 200px;
+}
+
+.left_page{
+    text-align: left;
+}
+
+#contacts{
+    text-align: left;
+    margin: auto;
+    font-size: 13pt; 
+}
+
+q{
+    font-size: 20pt; 
+    text-decoration: underline;
+}
+
+body{
+    background-color: rgb(224, 224, 224);
+}
+
+hr{
+    height: 20px;
+    width: 80%;
+    background-color:grey;
+    border: none;
+}
