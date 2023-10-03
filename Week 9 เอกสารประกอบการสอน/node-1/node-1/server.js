@@ -1,10 +1,10 @@
-console.log('i am first');
+// console.log('i am first');
 
-setTimeout(() => {
-  console.log('i am second');
-}, 0);
+// setTimeout(() => {
+//   console.log('i am second');
+// }, 0);
 
-console.log('i am third');
+// console.log('i am third');
 
 // arrow function
 // function hello(){
@@ -22,7 +22,7 @@ console.log('i am third');
 // }
 // hello("Kejkaew")
 
-//Hello world
+// Hello world
 // const http = require('http');
 // const hostname = 'localhost';
 // const port = 3000;
