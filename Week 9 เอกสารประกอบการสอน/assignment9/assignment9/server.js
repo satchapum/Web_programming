@@ -7,8 +7,8 @@ const port = 3000;
 
 const server = http.createServer((req, res) => {
     res.writeHead(200, {'Content-Type': 'text/html'});
-    readMsg().then(editJson).then(writeMsg).then(out => {res.write(out)});
-    res.end();
+    readMsg().then(editJson).then(writeMsg).then(out => {res.write(out);
+        res.end();});
   });
 
 let readMsg = () => {
@@ -18,7 +18,6 @@ let readMsg = () => {
                 reject(err);
             else
             {
-
                 resolve(data);
             }
         });
@@ -42,8 +41,8 @@ let editJson = (data) => {
             item8: 29,
             item9: 10
         }
-        for (let i  = 0; i < data.length; i++){
-            Object.assign(data1[keys[i]], {stock: keys[i]});
+        for (let i  = 0; i < keys.length; i++){
+            data1[keys[i]]["stock"] = stock[keys[i]];
         }
         console.log(data1);
         resolve(JSON.stringify(data1));
@@ -52,7 +51,7 @@ let editJson = (data) => {
 
 let writeMsg = (data) =>{
     return new Promise((resolve, reject) => {
-        fs.writeFile('message.txt', data, (err) => {
+        fs.writeFile('new_cloth.json', data, (err) => {
             if (err) 
                 reject(err);
             else
