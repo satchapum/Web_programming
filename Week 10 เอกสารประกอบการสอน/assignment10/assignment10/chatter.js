@@ -29,19 +29,18 @@ function sendMsg(){
 	//get msg
 	var text = document.getElementById("userMsg").value;
 	document.getElementById("userMsg").value = "";
-	console.log(text);
+	writeLog(text);
 }
 
 //ทำให้สมบูรณ์
-const outmsg = (async (msg) => {
+const writeLog = (async (msg) => {
 	let response = await fetch("/outmsg",{
-		method: "POST",
-        headers: {
-            'Accept': 'log/json',
-            'Content-Type': 'log/json'
+		method: 'POST',
+		headers: {
+            'Content-Type': 'application/json'
         },
 		body: JSON.stringify({
-			time: Date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
+			time: new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
 			user:username,
 			message:msg})
 	});
@@ -53,8 +52,7 @@ const outmsg = (async (msg) => {
 const readLog = (async (msg) => {
 	let response = await fetch("/inmsg");
 	let content = await response.json();
-	postMsg(JSON.parse(content));
-	console.log(content);
+	postMsg(content);
 })
 
 // รับ msg ที่เป็น JS object ที่อ่านมาได้จาก file
