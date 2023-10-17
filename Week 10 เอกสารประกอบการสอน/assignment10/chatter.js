@@ -29,27 +29,29 @@ function sendMsg(){
 	//get msg
 	var text = document.getElementById("userMsg").value;
 	document.getElementById("userMsg").value = "";
+	console.log("asda");
 	writeLog(text);
 }
 
 //ทำให้สมบูรณ์
 const writeLog = (async (msg) => {
 	let response = await fetch("/outmsg",{
-		method: 'POST',
-		headers: {
-            'Content-Type': 'application/json'
-        },
-		body: JSON.stringify({
-			time: new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
-			user:username,
-			message:msg})
-	});
-	let content = await response.json();
-	console.log(content);
+	method: "POST",
+	headers: {
+		'Accept': 'application/json',
+		'Content-Type': 'application/json'
+	},
+	body: JSON.stringify({
+		time: Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
+		user:username,
+		message:msg})
+	}).then(response => {
+		console.log("Testwrite");
+	}).catch(error => {console.log(JSON.stringify(error))})
 });
 
 //ทำให้สมบูรณ์
-const readLog = (async (msg) => {
+const readLog = (async () => {
 	let response = await fetch("/inmsg");
 	let content = await response.json();
 	postMsg(content);
