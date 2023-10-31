@@ -35,6 +35,7 @@ function sendMsg(){
 
 //ทำให้สมบูรณ์
 const writeLog = (async (msg) => {
+	let d = new Date();
 	let response = await fetch("/outmsg",{
 	method: "POST",
 	headers: {
@@ -42,7 +43,7 @@ const writeLog = (async (msg) => {
 		'Content-Type': 'application/json'
 	},
 	body: JSON.stringify({
-		time: Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
+		time: d.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
 		user:username,
 		message:msg})
 	}).then(response => {
