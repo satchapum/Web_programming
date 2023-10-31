@@ -36,10 +36,11 @@ function pageLoad() {
   readPost();
 }
 
-function getData() {
+async function getData() {
   var msg = document.getElementById("textmsg").value;
   document.getElementById("textmsg").value = "";
-  writePost(msg);
+  await writePost(msg);
+  await readPost();
 }
 
 function fileUpload() {
@@ -48,6 +49,7 @@ function fileUpload() {
 
 function fileSubmit() {
   document.getElementById("formId").submit();
+  showImg("img/" + getCookie("img"));
 }
 
 // แสดงรูปในพื้นที่ที่กำหนด
@@ -66,12 +68,12 @@ function showImg(filename) {
 async function readPost() {
   let response = await fetch("/readPost");
   let content = await response.json();
+  showPost(content);
 }
 
 // เขียน post ใหม่ ลงไปใน file
 // complete it
 async function writePost(msg) {
-  let d = new Date();
   let response = await fetch("/writePost", {
     method: "POST",
     headers: {
@@ -79,8 +81,8 @@ async function writePost(msg) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      user: getCookie("name"),
-      message: msg,
+      user:getCookie("username"),
+      message:msg,
     }),
   });
 }

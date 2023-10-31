@@ -1,10 +1,22 @@
 {
-	"post1":{
-		"user":"mario",
-		"message":"สวัสดีวันฮาโลวีน"
+	"post1": {
+		"user": "mario",
+		"message": "สวัสดีวันฮาโลวีน"
 	},
-	"post2":{
-		"user":"luigi",
-		"message":"hello world"
+	"post2": {
+		"user": "luigi",
+		"message": "hello world"
+	},
+	"post3": {
+		"user": "luigi",
+		"message": "Mario"
+	},
+	"post4": {
+		"user": "mario",
+		"message": "Luigi"
+	},
+	"post5": {
+		"user": "luigi",
+		"message": "Coins!!"
 	}
 }

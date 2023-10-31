@@ -36,14 +36,35 @@ const imageFilter = (req, file, cb) => {
 };
 
 //ทำให้สมบูรณ์
-app.post("/profilepic", (req, res) => {
-  return res.redirect("feed.html");
-});
+app.post("/profilepic", async (req, res) => {
+  const read = await readJson("js/userDB.json");
+  let upload = multer({ storage: storage, fileFilter: imageFilter }).single('avatar');
+  upload(req, res, (err) => {
+
+    if (req.fileValidationError) {
+      return res.send(req.fileValidationError);
+    }
+    else if (!req.file) {
+      return res.send('Please select an image to upload');
+    }
+    else if (err instanceof multer.MulterError) {
+      return res.send(err);
+    }
+    else if (err) {
+      return res.send(err);
+    }
+    updateImg(req.cookies.username, req.file.filename, read, "js/userDB.json");
+    res.cookie("img", req.file.filename);
+    return res.redirect("feed.html");
+  });
+})
 
 //ทำให้สมบูรณ์
 // ถ้าต้องการจะลบ cookie ให้ใช้
 // res.clearCookie('username');
 app.get("/logout", (req, res) => {
+  res.clearCookie('username');
+  res.clearCookie('img');
   return res.redirect("index.html");
 });
 
@@ -56,7 +77,7 @@ app.get("/readPost", async (req, res) => {
 //ทำให้สมบูรณ์
 app.post("/writePost", async (req, res) => {
   const read = await readJson("js/postDB.json");
-  const obj = await writeJson(req.body, read, "js/postDB.json");
+  const obj = await updateMsg(req.body, read, "js/postDB.json");
   res.json(obj);
 });
 
@@ -64,18 +85,23 @@ app.post("/writePost", async (req, res) => {
 app.post("/checkLogin", async (req, res) => {
   var jsonData = await readJson("js/userDB.json");
   var keys = Object.keys(jsonData);
+  var IsCorrect = false;
   for (var numberOfKeys = 0; numberOfKeys < keys.length; numberOfKeys++) {
     if (
       req.body.username == jsonData[keys[numberOfKeys]].username &&
       req.body.password == jsonData[keys[numberOfKeys]].password
     ) {
       console.log("login successful");
-      res.cookie("username", req.body.username);
+      res.cookie("username", jsonData[keys[numberOfKeys]].username);
+      res.cookie("img", jsonData[keys[numberOfKeys]].img);
+      IsCorrect = true;
       return res.redirect("feed.html");
-    } else {
-      console.log("login failed");
-      return res.redirect("index.html?error=1");
     }
+  }
+  if (IsCorrect == false) {
+    IsCorrect = false;
+    console.log("login failed");
+    return res.redirect("index.html?error=1");
   }
   // ถ้าเช็คแล้ว username และ password ถูกต้อง
   // return res.redirect('feed.html');
@@ -93,25 +119,45 @@ const readJson = (file_name) => {
   });
 };
 
-//ทำให้สมบูรณ์
-const writeJson = (new_msg, data, file_name) => {
-  return new Promise((resolve, reject) => {
+const updateMsg = (new_msg, data, file_name) => {
+  return new Promise((resolve) => {
     var keys = Object.keys(data);
+    data["post" + [keys.length + 1]] = {
+      user: new_msg.user,
+      message: new_msg.message,
+    };
+    //console.log(data);
+    resolve(writeJson(JSON.stringify(data), file_name));
+  });
+};
+
+//ทำให้สมบูรณ์
+const writeJson = (data, file_name) => {
+  return new Promise((resolve, reject) => {
     fs.writeFile(file_name, data, (err) => {
       if (err) reject(err);
-      else 
-      {
-        data = 'post'+keys.length;
-        data[post[keys.length]]["user"] = new_msg.user;
-        data[post[keys.length]]["message"] = new_msg.message;
-        resolve(JSON.stringify(data));
-      }
+      else resolve(data);
     });
   });
 };
 
 //ทำให้สมบูรณ์
-const updateImg = async (username, fileimg) => {};
+const updateImg = async (username, fileimg, data, file_name) => {
+  return new Promise((resolve) => {
+    var keys = Object.keys(data);
+    for (var numberOfKeys = 0; numberOfKeys < keys.length; numberOfKeys++) {
+      //console.log(data[keys[numberOfKeys]].username + "//" + username);
+      if (
+        data[keys[numberOfKeys]].username == username
+      ) {
+        data[keys[numberOfKeys]].img = fileimg;
+        break;
+      }
+    }
+    resolve(writeJson(JSON.stringify(data), file_name));
+    
+  });
+};
 
 app.listen(port, hostname, () => {
   console.log(`Server running at   http://${hostname}:${port}/`);
