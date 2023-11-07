@@ -40,6 +40,7 @@ async function getData() {
   var msg = document.getElementById("textmsg").value;
   document.getElementById("textmsg").value = "";
   await writePost(msg);
+  await readPost();
 }
 
 function fileUpload() {
