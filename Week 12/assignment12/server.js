@@ -152,7 +152,7 @@ app.post("/checkLogin", async (req, res) => {
   if (IsCorrect == false) {
     IsCorrect = false;
     console.log("login failed");
-    return res.redirect("index.html?error=1");
+    return res.redirect("login.html?error=1");
   }
   // ถ้าเช็คแล้ว username และ password ถูกต้อง
   // return res.redirect('feed.html');
